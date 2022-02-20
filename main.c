@@ -15,12 +15,10 @@
 int main () {
     // declaration des variables
     bool etat;
-    int compteur = 0, ntab = 0, n_save = 0, n;
-    etudiant *e;
+    int compteur = 0, ntab = 0, n_save = 0;
 
-    initialisation_donnees(e, &n, &compteur, &ntab);
     // boucle le menu tant que etat == TRUE
     do {
-        etat = affichage_menu(&compteur, &ntab, &n_save);     // affichage_menu renvoir un booleen
+        etat = affichage_menu(&compteur, &ntab, &n_save);     // affichage_menu renvoie un booleen
     } while (etat == TRUE);
 }

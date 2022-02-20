@@ -14,7 +14,7 @@
 void ecrire_fichier (FILE *fp, char nom_fic[], char mode[5], char type[nbmax_char], etudiant *e, int *compteur, int *n_save) {
     int j;
 
-    if (strcmp(type, "Saisie etudiant(e)") == 0) {         // si le type == "saisie etudiant(e)", on ecrit dans le fichier "etudiants.txt"
+    if (strcmp(type, "Saisie etudiant(e)") == 0) {          // si le type == "saisie etudiant(e)", on ecrit dans le fichier "etudiants.txt"
         fp = fopen(nom_fic, mode);          // ouverture du fichier en mode "a": on ecrit a la suite sans effacer le contenu du fichier (s'il y en a)
         if (fp == NULL) {
             printf("Erreur dans l'ouverture du fichier.");
@@ -36,9 +36,9 @@ void ecrire_fichier (FILE *fp, char nom_fic[], char mode[5], char type[nbmax_cha
             fprintf(fp, "\n-----------------------------------------------------------------------");
             fprintf(fp, "\n");
         }
-        fclose(fp);                                         // on ferme le fichier pour dire que tout c'est bien passe et securiser le document
+        fclose(fp);                                          // on ferme le fichier pour dire que tout c'est bien passe et securiser le document
     }
-    else if (strcmp(type, "Suivi compteur et ntab") == 0) {      // si le type == "Suivi compteur et ntab", on ecrit dans le fichier "suivi_compteur_tab.txt
+    else if (strcmp(type, "Suivi compteur et ntab") == 0) {       // si le type == "Suivi compteur et ntab", on ecrit dans le fichier "suivi_compteur_tab.txt
         fp = fopen(nom_fic, mode);                // ouverture en mode ecriture
         if (fp == NULL) {
             printf("Erreur dans l'ouverture du fichier.");
@@ -49,6 +49,13 @@ void ecrire_fichier (FILE *fp, char nom_fic[], char mode[5], char type[nbmax_cha
         fprintf(fp, "\ncompteur : %d", *compteur);
         fprintf(fp, "\nntab (place(s) restante(s)) : %d", *n_save - *compteur);
         fclose(fp);                                      // on ferme le fichier pour dire que tout c'est bien passe et securiser le document
+    }
+    else if (strcmp(type, "Effacer etudiant(e)") == 0) {
+        fp = fopen(nom_fic, mode);                // ouverture en mode ecriture
+        if (fp == NULL) {
+            printf("Erreur dans l'ouverture du fichier.");
+        }
+        fprintf(fp, "");
     }
 }
 
@@ -65,33 +72,6 @@ void lire_fichier (FILE *f, char nom_fic[nbmax]) {
             printf("%s", str);                        // on affiche le contenu de chaque ligne
         }
     }
-    fclose(f);
-}
-
-void recuperer_donnees_compteur (int *n, int *compteur, int *ntab) {
-    char str[500], c[256], arr[10], *endPtr;;
-    int i = 0;
-    FILE *f;
-
-    f = fopen("suivi_compteur_tab.txt", "r");
-    if (f == NULL) {
-        printf("\nErreur d'ouverture du fichier.");
-        printf("\n");
-    }
-
-    while ((*c = fgetc(f)) != EOF) {
-        if (strcmp(c, ":") == 0) {
-            if (fgets(str, 500, f) != NULL) {
-                arr[i] = strtod(str, &endPtr);
-                i ++;
-            }
-        }
-    }
-
-    *n = arr[0];
-    *compteur = arr[1];
-    *ntab = arr[2];
-
     fclose(f);
 }
 
@@ -114,7 +94,7 @@ bool recherche_ddn_jma (etudiant *e, int *compteur) {
 
                 for (i = 0; i < *compteur; i++) {                            // pour i allant de 0 au nb du compteur
                     if ((e + i)->ddn.jour == recherche_ddn) {                // si la case ddn.jour a la position i == recherche de l'utilisateur
-                        titre("\nFiche Etudiant", i + 1);          // mise en page - affichage Fiche etudiant i
+                        titre("\nFiche Etudiant", i + 1);         // mise en page - affichage Fiche etudiant i
                         afficher_1_etudiant(*(e + i));                    // on affiche l'etudiant
                     }
                 }
@@ -175,14 +155,14 @@ void recherche_nom_prenom (etudiant *e, char type[nbmax_char], int *compteur) {
 
         for (i = 0; i < *compteur; i++) {                                  // pour i allant de 0 au nb du compteur
             if (strcmp((e + i)->prenom, recherche_np) == 0) {              // on compare si l'element de la case du tableau == recherche de l'utilisateur
-                titre("\nFiche Etudiant", i + 1);                // mise en page - affichage Fiche Etudiant i
+                titre("\nFiche Etudiant", i + 1);               // mise en page - affichage Fiche Etudiant i
                 afficher_1_etudiant(*(e + i));                          // on affiche l'etudiant
                 printf("\n");
             }
         }
         system("pause");
     }
-    else if (strcmp(type, "Nom") == 0) {      // on compare si le type == "Nom" alors cette fonction cherchera en fonction du nom
+    else if (strcmp(type, "Nom") == 0) {                                   // on compare si le type == "Nom" alors cette fonction cherchera en fonction du nom
         printf("\nNom :");
         scanf("%s", recherche_np);
         system("cls");
@@ -236,30 +216,6 @@ void quitter_menu () {
     system("cls");
     printf("Merci et a bientot !");
     Sleep(1000);
-}
-
-// ------------------ Initialisation des donnees (si enregistrees dans des fichiers txt) ------------------
-void initialisation_donnees (etudiant *e, int *n, int *compteur, int *ntab) {
-    char c[256];
-    FILE *f1;
-
-    f1 = fopen("suivi_compteur_tab.txt", "r");
-    if ((*c = fgetc(f1)) == EOF) {
-        printf("Absence de donnees dans le fichier.");
-        printf("Initialisation");
-        Sleep(500);
-    }
-    else {
-        printf("Initialisation des donnees");
-        Sleep(500);
-        recuperer_donnees_compteur(n, compteur, ntab);
-
-        if (*compteur != 0) {
-            printf("\nAllocation de la memoire ...");
-            Sleep(500);
-            e = (etudiant *) malloc(*n * sizeof(etudiant));
-        }
-    }
 }
 
 // ------------------ Fonction affichage menu ------------------
@@ -337,6 +293,7 @@ bool affichage_menu (int *compteur, int *ntab, int *n_save) {
             }
             return TRUE;
 
+
             // Afficher la liste des etudiants
         case 2:
             if (*compteur == 0) {                          // si le compteur est nul, alors il n'y a pas d'etudiant a afficher
@@ -346,20 +303,22 @@ bool affichage_menu (int *compteur, int *ntab, int *n_save) {
             } else {
                 do {
                     system("cls");
-                    printf("\nVoulez-vous consulter les etudiants enregistres sur cette session ou l'integralite de la liste (via un fichier .txt) ?");
+                    printf("\nVoulez-vous consulter les etudiants enregistres sur cette session ou l'integralite de la liste (via un fichier .txt) ?");     // on demande si l'utilisateur veut consulter le fichier ou la liste locale d'etudiants
                     printf("\n1 - Consulter sur cette session\n2 - Consulter en general");
                     scanf("%d", &choix_consult_etu);
 
                     switch(choix_consult_etu) {
                         case 1:
-                            afficher_n_etudiant_dynamic(e, *compteur);
-                            etat_choix_consult = 1;
+                            afficher_n_etudiant_dynamic(e, *compteur);     // appel de la fonction afficher_n_etudiant_dynamic
+                            etat_choix_consult = 1;                            // on incremente etat_choix_consult pour sortir du do
+                            return TRUE;
 
                         case 2:
                             system("cls");
                             lire_fichier(fp, nom_fic1);     // on lit le fichier .txt et affiche les coordonnees de tous les etudiants
-                            etat_choix_consult = 1;
+                            etat_choix_consult = 1;                    // on incremente etat_choix_consult pour sortir du do
                             system("pause");
+                            return TRUE;
 
                         default:
                             printf("Vous n'avez pas entre le bon numero. Veuillez reessayer.");
@@ -369,6 +328,7 @@ bool affichage_menu (int *compteur, int *ntab, int *n_save) {
                 } while (etat_choix_consult == 0);
             }
             return TRUE;     // retourne TRUE pour revenir au menu principal
+
 
             // Effacer un etudiant
         case 3:
@@ -381,10 +341,11 @@ bool affichage_menu (int *compteur, int *ntab, int *n_save) {
                 effacer_1_etudiant(e, compteur, n_save);
                 *compteur -= 1;
                 *ntab -= 1;
-                ecrire_fichier(fp, nom_fic1, "w", "Saisie etudiant(e)", e, compteur, n_save);
+                ecrire_fichier(fp, nom_fic1, "w", "Effacer etudiant(e)", e, compteur, n_save);
                 ecrire_fichier(fp, nom_fic2, "w", "Suivi compteur et ntab", e, compteur, n_save);
             }
             return TRUE;
+
 
             // Rechercher des etudiants
         case 4:
@@ -396,6 +357,7 @@ bool affichage_menu (int *compteur, int *ntab, int *n_save) {
                 recherche_etudiant(e, compteur);     // appel de la fonction recherche_etudiant
             }
             return TRUE;
+
 
             // Affichage d'informations a propos du tableau d'etudiants
         case 5:

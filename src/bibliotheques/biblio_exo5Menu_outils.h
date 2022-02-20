@@ -181,24 +181,41 @@ void afficher_1_etudiant(etudiant e) {
     tiret();
 }
 
-void effacer_1_etudiant (etudiant *e, int *compteur, int *n_save) {
-    int i, j, k;
+bool effacer_1_etudiant (etudiant *e, int *compteur, int *n_save) {
+    int i, j, k, l, etat_etu_a_eff;
     char choix_eff[nbmax_char];
 
     system("cls");
     printf("\nListe des noms du/des etudiant(e)s enregistre(e)s");
     for (k = 0; k < *compteur; k++) {
-        printf("\n%d - %s", k + 1, (e + k)->nom);
+        printf("\n%d - %s", k + 1, (e + k)->nom);          // on affiche la liste des etudiants enregistres pour plus de confort
     }
-    printf("\n\nQuel est l'etudiant dont vous voulez effacer les coordonnees (entrer son nom) ?");
-    scanf("%s", choix_eff);
 
-    for (i = 0; i < *compteur; i++) {
-        if (strcmp((e + i)->nom, choix_eff) == 0) {
-            for (j = i; j < *n_save; j++) {
-                if (j < *n_save - 1) {
-                    *(e + j) = *(e + j + 1);
+    do {
+        printf("\n\nQuel est l'etudiant dont vous voulez effacer les coordonnees (entrer son nom) ?");     // on demande a l'utilisateur d'entrer le nom de l'etudiant a effacer
+        scanf("%s", choix_eff);
+
+        for (l = 0; l < *compteur; l++) {
+            if (strcmp(choix_eff, (e + l)->nom) == 0) {
+                printf("\nEffacement des coordonnees de l'etudiant(e) ...");
+                Sleep(500);
+                etat_etu_a_eff = 1;                  // on incremente etat_etu_a_eff pour sortir du do
+            }
+            else {
+                printf("Vous n'avez pas entre le bon numero. Veuillez reessayer.");
+            }
+        }
+    } while (etat_etu_a_eff == 0);                       // tant que etat_etu_a_eff == 0, on execute ce qu'il y a dans le do
+
+    for (i = 0; i < *compteur; i++) {                    // on parcourt le tableau d'etudiants enregistres
+        if (strcmp((e + i)->nom, choix_eff) == 0) {      // on compare si la recherche de l'utilisateur correspond a un nom d'etudiant
+            for (j = i; j < *n_save; j++) {              // on parcourt le tableau d'etudiants a partir de l'indice i jusqu'a la taille max du tableau
+                if (j < *n_save - 1) {                   // si j < max du tableau
+                    *(e + j) = *(e + j + 1);             // on decale d'un rang vers la gauche tous les etudiants qui sont apres l'etudiant a effacer
                 }
+                else {                                                                              // si le tableau contient qu'un seul element
+                    e = (etudiant *) calloc(0, sizeof(etudiant));     // on donne au tableau la taille 0 en appelant la methode calloc qui attribue l'espace apres avoir assigne des 0 aux espaces a allouer
+                }                                                                                   // donc (etudiant *) calloc(0, sizeof(etudiant)) => le tableau n'existe pas
             }
         }
     }
@@ -210,7 +227,7 @@ void afficher_n_etudiant_dynamic (etudiant *e, int n) {
     system("cls");
     for (i = 0; i < n; i++) {
         titre("\nFiche Etudiant", i + 1);
-        afficher_1_etudiant(*(e + i)); // pour i allant de 0 jusqu'a n (exclus), on affiche affiche les coordonnees de l'etudiant
+        afficher_1_etudiant(*(e + i)); // pour i allant de 0 jusqu'a n (exclus), on affiche les coordonnees de l'etudiant
         printf("\n");
     }
     system("pause");

@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------------------------
-// Seance 2 - 02 fev. 2022
+// Seance 3 - 02 fev. 2022
 // Kantane Pritam Charles
 // 3PSC - groupe 1
 // Bibliotheque pour le 'Menu - ETUDIANTS' - version 1.0
@@ -122,13 +122,15 @@ etudiant saisir_1_etudiant () {
     etudiant e;     // declaration d'un etudiant
     int i;
     float somme_note = 0, somme_coeff = 0;
+    bool etat_ddn;
 
     do {
+        system("cls");
         printf("\nCombien de notes voulez-vous entrer (entre 1 et 20 inclus)?");     // on demande a l'utilisateur combien de notes il veut entrer
         scanf("%d", &e.nb_notes);
     } while (e.nb_notes < 1 || e.nb_notes > 20);     // le nombre de notes est compris entre 1 et 20 = taille des tableaux notes et coefficients
 
-    titre("Fiche Etudiant", 0);
+    titre("\nFiche Etudiant", 0);
 
     // on entre ses coordonnees
     printf("\nNom :");
@@ -202,7 +204,7 @@ bool effacer_1_etudiant (etudiant *e, int *compteur, int *n_save) {
                 etat_etu_a_eff = 1;                  // on incremente etat_etu_a_eff pour sortir du do
             }
             else {
-                printf("Vous n'avez pas entre le bon numero. Veuillez reessayer.");
+                printf("Vous n'avez pas entre le bon nom. Veuillez reessayer.");
             }
         }
     } while (etat_etu_a_eff == 0);                       // tant que etat_etu_a_eff == 0, on execute ce qu'il y a dans le do
@@ -235,6 +237,7 @@ void afficher_n_etudiant_dynamic (etudiant *e, int n) {
 
 void nombre_etudiant (int *n, int *n_save) {
     do {
+        system("cls");
         printf("\nSaisir un nombre entre 1 et %d (exclus) d'etudiants:", nbmax);
         scanf("%d", n);
     } while (*n <= 0 || *n > nbmax);

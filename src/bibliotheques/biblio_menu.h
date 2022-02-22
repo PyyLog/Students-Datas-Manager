@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------------------------
-// Seance 2 - 02 fev. 2022
+// Seance 3 - 02 fev. 2022
 // Kantane Pritam Charles
 // 3PSC - groupe 1
 // Bibliotheque pour le 'Menu - ETUDIANTS' - version 1.0
@@ -140,6 +140,7 @@ bool recherche_ddn_jma (etudiant *e, int *compteur) {
 
             default:
                 printf("\nVous n'avez pas entre le bon numero. Veuillez reessayer.");     // si le nombre entre n'est pas bon, on redemande a rentrer le choix
+                Sleep(500);
         }
     } while(etat_recherche == 0);
 }
@@ -207,6 +208,7 @@ bool recherche_etudiant (etudiant *e, int *compteur) {
 
             default:
                 printf("\nVous n'avez pas entre le bon numero veuillez reessayer.");
+                Sleep(500);
         }
     } while(etat_recherche_etudiant == 0);
 }
@@ -304,7 +306,8 @@ bool affichage_menu (int *compteur, int *ntab, int *n_save) {
                 do {
                     system("cls");
                     printf("\nVoulez-vous consulter les etudiants enregistres sur cette session ou l'integralite de la liste (via un fichier .txt) ?");     // on demande si l'utilisateur veut consulter le fichier ou la liste locale d'etudiants
-                    printf("\n1 - Consulter sur cette session\n2 - Consulter en general");
+                    printf("\n1 - Consulter sur cette session\n2 - Consulter en general\n3 - Retour au menu");
+                    printf("\n");
                     scanf("%d", &choix_consult_etu);
 
                     switch(choix_consult_etu) {
@@ -318,6 +321,9 @@ bool affichage_menu (int *compteur, int *ntab, int *n_save) {
                             lire_fichier(fp, nom_fic1);     // on lit le fichier .txt et affiche les coordonnees de tous les etudiants
                             etat_choix_consult = 1;                    // on incremente etat_choix_consult pour sortir du do
                             system("pause");
+                            return TRUE;
+
+                        case 3:
                             return TRUE;
 
                         default:

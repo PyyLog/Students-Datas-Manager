@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------------------------
-// Seance 2 - 02 fev. 2022
+// Seance 3 - 02 fev. 2022
 // Kantane Pritam Charles
 // 3PSC - groupe 1
 // Menu - ETUDIANTS - version 1.0

@@ -1,8 +1,15 @@
-# Students-Datas-Manager
+<div id="top"></div>
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <h3 align="center">Students Datas Manager</h3>
+</div>
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
 A small homework for my programming class.
-
-------------------- Students Datas Manager -------------------
 
 The output shows a menu on the console.
 
@@ -32,3 +39,11 @@ Check the students tab information.
 
 6)
 Quit the app.
+
+### Built With
+
+* C language
+
+### Contributions
+
+* [PCK](https://github.com/PritamCharles) (Owner of the repository)

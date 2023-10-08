@@ -35,4 +35,4 @@ The output shows a menu on the console.
 
 ### Contributions
 
-* [PCK](https://github.com/PritamCharles) (Owner of the repository)
+* [Pritam Kantane](https://github.com/PyyLog) (Owner of the repository)
